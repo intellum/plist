@@ -86,7 +86,7 @@ module Plist
 
             element.keys.sort_by{|k| k.to_s }.each do |k|
               v = element[k]
-              inner_tags << tag('key', CGI.escapeHTML(k.to_s), options)
+              inner_tags << tag('key', k.to_s, options)
               inner_tags << plist_node(v, options)
             end
 
@@ -101,7 +101,7 @@ module Plist
         when Date # also catches DateTime
           output << tag('date', element.strftime('%Y-%m-%dT%H:%M:%SZ'), options)
         when String, Symbol, Integer, Float
-          output << tag(element_type(element), CGI.escapeHTML(element.to_s), options)
+          output << tag(element_type(element), element.to_s, options)
         when IO, StringIO
           element.rewind
           contents = element.read
